@@ -1,9 +1,11 @@
 FROM python:3.12.1
 
-RUN pip install pandas
+RUN pip install pandas pyarrow psycopg sqlalchemy
 
 WORKDIR /app
 
-COPY pipeline.py pipeline.py
+COPY ../data/yellow_tripdata_2021-01.parquet /app/data
 
-ENTRYPOINT [ "python", "pipeline.py"]
+COPY postgres_ingestion.py postgres_ingestion.py
+
+ENTRYPOINT [ "python", "postgres_ingestion.py"]
